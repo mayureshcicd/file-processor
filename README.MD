@@ -226,9 +226,40 @@ sudo ./add-user.sh
 
 
 ### **Follow the Prompts:**
--  • Type of user: Choose a for Management User.
--  • Username: Enter a preferred admin username (e.g., admin).
--  • Password: Set a secure password (minimum 8 characters).
--  • Re-type Password: Confirm the password.
--  • Realm: Just press Enter to accept the default (ManagementRealm).
--  • Is this correct? Type yes and press Enter.
+-  Type of user: Choose a for Management User.
+-  Username: Enter a preferred admin username (e.g., admin).
+-  Password: Set a secure password (minimum 8 characters).
+-  Re-type Password: Confirm the password.
+-  Realm: Just press Enter to accept the default (ManagementRealm).
+-  Is this correct? Type yes and press Enter.
+
+
+
+# Assign Groups
+            ​ 
+For the administration console, use the group admin or management:
+
+What groups do you want this user to belong to? (Please enter a comma separated list, or leave blank for none)[]: 
+
+You can also use management or leave it blank for default roles.
+
+
+# Restart WildFly (if it's already running):
+
+```bash
+sudo systemctl restart wildfly
+```
+
+
+
+# Access the Console            ​ 
+
+Now, go to:  [http://localhost:9990/console](http://localhost:9990/console)
+
+
+
+### **Log in with:**
+-  Username: admin
+-  Password: The one you just set
+
+
