@@ -465,3 +465,96 @@ mvn clean package -Pwar-build
 ```
 
 this command will add profile dependencies while creating war.
+
+
+## What are the code level changes done for .jar to .war migration
+
+
+### **CerebraApplication.java**
+
+
+
+```java
+package com.cerebra.fileprocessor;
+
+import com.cerebra.fileprocessor.config.ConfigProperties;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+
+@SpringBootApplication(scanBasePackages = "com.cerebra")
+@EnableJpaRepositories(basePackages = "com.cerebra")
+@EntityScan(basePackages = "com.cerebra")
+@ComponentScan(basePackages = "com.cerebra")
+@EnableTransactionManagement
+@EnableAsync
+@EnableConfigurationProperties(ConfigProperties.class)
+public class CerebraApplication extends SpringBootServletInitializer {
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(CerebraApplication.class);
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(CerebraApplication.class, args);
+	}
+}
+```
+
+
+### **application.yml**
+
+added sql server configuration
+
+```yaml
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  application:
+    name: cerebra-api
+  cache:
+    type: caffeine
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=cerebraDB;encrypt=false
+    username: SA
+    password: Mvr#2025
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1740000
+      pool-name: CerebraDBConnection
+      leak-detection-threshold: 5000
+      validation-timeout: 5000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+```
+
+
+### **also see the pom.xml**
+
+- added sql server dependencies
+- added packaging as war
+- added profile
+
+
