@@ -362,3 +362,106 @@ Save the file and restart WildFly.
     
 This setup allows you to debug your Spring Boot application running on WildFly using IntelliJ IDEA Community Edition.
 
+
+# SQL Server Installation Step
+
+    • SQL Server is supported on Ubuntu 22.04, 20.04, and 18.04.
+
+### **Import the Public Repository Key:**
+
+```bash
+sudo curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+```
+
+
+### **Register the SQL Server Repository:**
+
+```bash
+sudo add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2022.list)"
+```
+
+
+### **Add the Missing GPG Key for SQL Server:**
+
+
+```bash
+sudo curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/microsoft.gpg
+```
+
+### **Update the Repository List:**
+
+
+```bash
+sudo apt update
+```
+
+### **Continue Installation:**
+
+```bash
+sudo apt install -y mssql-server
+```
+
+### **Configure SQL Server:**
+
+
+```bash
+sudo /opt/mssql/bin/mssql-conf setup
+```
+
+Note :-- select developer edition
+
+
+### **Check the Status:**
+
+```bash
+systemctl status mssql-server –no-pager
+```
+
+### **Install SQL Server Command-Line Tools (Optional)**
+
+```bash
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list)"
+
+sudo apt update
+sudo apt install -y mssql-tools unixodbc-dev
+```
+
+### **Add tools to PATH**
+
+```bash
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+
+### **Connect to SQL Server Using sqlcmd**
+
+```bash
+sqlcmd -S localhost -U SA -P 'YourPassword'
+```
+
+
+### **Stop SQL Server**
+
+```bash
+sudo systemctl stop mssql-server
+```
+
+### **Restart SQL Server**
+
+```bash
+sudo systemctl restart mssql-server
+```
+
+
+
+
+# How to create war file
+
+```bash
+mvn clean package -Pwar-build
+```
+
+this command will add profile dependencies while creating war.
