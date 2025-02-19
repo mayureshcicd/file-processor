@@ -109,4 +109,109 @@ Watch the demo video below to understand the application's functionality:
 - **PostgreSQL**: For offering a reliable and scalable database solution.
 - **Apache POI**: For simplifying Excel and CSV file processing.
 
- 
+
+
+# WildFly 30 Installation Guide for Ubuntu
+
+This guide provides step-by-step instructions to install, configure, and uninstall WildFly 30 on Ubuntu.
+
+---
+
+## Prerequisites
+- Ubuntu installed and updated.
+- Administrative (sudo) access.
+
+---
+
+## Installing WildFly 30 on Ubuntu
+
+# Update System Packages
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+# Install Java (WildFly requires Java 11 or later)
+
+```bash
+sudo apt install openjdk-17-jdk -y
+```
+
+# Download WildFly 30
+
+```bash
+cd /opt
+sudo wget https://github.com/wildfly/wildfly/releases/download/30.0.0.Final/wildfly-30.0.0.Final.tar.gz
+```
+
+
+# Extract WildFly
+
+```bash
+sudo tar -xvzf wildfly-30.0.0.Final.tar.gz
+sudo mv wildfly-30.0.0.Final wildfly
+```
+
+# Create a WildFly User
+
+```bash
+sudo useradd -r -s /bin/false wildfly
+sudo chown -R wildfly:wildfly /opt/wildfly
+```
+
+
+# Create a Systemd Service
+
+```bash
+sudo gedit /etc/systemd/system/wildfly.service
+```
+
+# Create a Systemd Service
+
+```bash
+sudo gedit /etc/systemd/system/wildfly.service
+```
+#Paste the following configuration:
+
+```ini
+
+[Unit]
+Description=WildFly Application Server
+After=network.target
+
+[Service]
+Type=simple
+User=wildfly
+Group=wildfly
+ExecStart=/opt/wildfly/bin/standalone.sh -b=0.0.0.0
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+#Reload Systemd and Start WildFly
+
+```bash
+sudo systemctl stop wildfly
+sudo systemctl daemon-reload
+sudo systemctl start wildfly
+sudo systemctl enable wildfly
+```
+
+#Open Firewall Port (Optional)
+
+```bash
+sudo ufw allow 8080/tcp
+```
+
+
+#Access WildFly on Port 8080
+
+Open a browser and visit: [http://localhost:8080/](http://localhost:8080/)
+
+
+
+
