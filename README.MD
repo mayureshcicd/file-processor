@@ -263,3 +263,102 @@ Now, go to:  [http://localhost:9990/console](http://localhost:9990/console)
 -  Password: The one you just set
 
 
+
+
+
+# How to add log file of spring boot application 
+
+
+### **open standalone.xml  file**
+
+```bash
+sudo gedit /opt/wildfly/standalone/configuration/standalone.xml
+```
+
+and then
+
+- Locate the existing <subsystem xmlns="urn:jboss:domain:logging:8.0"> section in your standalone.xml.
+
+- Add your new handler and logger configuration within this section.
+
+Here’s how it would look:
+
+```xml
+<subsystem xmlns="urn:jboss:domain:logging:8.0">
+    <!-- Existing configurations (e.g., CONSOLE, FILE handlers, etc.) -->
+
+    <!-- Add your new handler here -->
+    <periodic-rotating-file-handler name="SPRING_BOOT_APP_HANDLER" autoflush="true">
+        <formatter>
+            <named-formatter name="PATTERN"/>
+        </formatter>
+        <file relative-to="jboss.server.log.dir" path="file-processor.log"/>
+        <suffix value=".yyyy-MM-dd"/>
+        <append value="true"/>
+    </periodic-rotating-file-handler>
+
+    <!-- Add your new logger here -->
+    <logger category="com.cerebra.fileprocessor" use-parent-handlers="false">
+        <level name="DEBUG"/>
+        <handlers>
+            <handler name="SPRING_BOOT_APP_HANDLER"/>
+        </handlers>
+    </logger>
+
+    <!-- Other existing configurations (e.g., root-logger, formatters, etc.) -->
+</subsystem>
+
+```
+
+
+
+# How to debug a Spring Boot WAR file deployed on WildFly
+
+Open
+
+```bash
+sudo gedit /opt/wildfly/bin/standalone.conf
+```
+
+
+and uncomment the line that is already provided in your standalone.conf file. This line is specifically for enabling remote debugging on WildFly, and it uses the 8787 port, which is the standard port for debugging.
+Here’s the line you need to uncomment:
+
+```bash
+JAVA_OPTS="$JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
+```
+
+Save the file and restart WildFly.
+
+# Create a Remote Debug Configuration in IntelliJ IDEA
+
+    • Open IntelliJ IDEA Community Edition.
+    • Go to Run > Edit Configurations.
+    • Click the + button and select Remote JVM Debug.
+    • Name the configuration (e.g., "WildFly Debug").
+    • Set the following parameters:
+        ◦ Host: localhost (or the host where WildFly is running).
+        ◦ Port: 8787 (or the port you specified in the WildFly configuration).
+        ◦ Leave the other settings as default.
+    • Click Apply and OK.
+    
+# Deploy the WAR File to WildFly
+    • Deploy your Spring Boot WAR file to WildFly as usual (e.g., by copying it to the standalone/deployments directory or using the WildFly management console).
+    
+    
+# Start Debugging
+    • In IntelliJ IDEA, select the "WildFly Debug" configuration you created.
+    • Click the Debug button (the bug icon).
+    • IntelliJ IDEA will connect to WildFly in debug mode.
+    • Set breakpoints in your Spring Boot application code as needed.
+    
+# Test the Debugging Session
+   • Access your application in a browser or via an API client
+   • When the execution reaches a breakpoint, IntelliJ IDEA will pause and allow you to inspect variables, step through code, etc.
+   
+# Notes:
+    • Ensure that the port you specify in the WildFly configuration (8787 in this example) is not blocked by a firewall.
+    • If you encounter issues, double-check that the WAR file is deployed correctly and that WildFly is running in debug mode.
+    
+This setup allows you to debug your Spring Boot application running on WildFly using IntelliJ IDEA Community Edition.
+
