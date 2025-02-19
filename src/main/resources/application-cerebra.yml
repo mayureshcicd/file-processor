@@ -1,0 +1,28 @@
+cerebra:
+  openApiDescription: cerebra Api for File Processing
+  openApiEmail: a.cerebra@gmail.com
+  openApiLicense: cerebra
+  openApiName: Cerebra-API
+  openApiTermsOfService: https://cerebra.com/
+  openApiTitle: Cerebra
+  openApiUrl: https://cerebra.com
+  openApiServerUrl: http://localhost:8080/cerebra
+  userEmail: mayureshratnaparkhi@gmail.com
+  tokenExpirationMs: 3600000
+  tokenRefreshExpirationMs: 86400000
+  tokenSecretKey: kaaSC897zMSgsfus4D4/umw5Cdr018oWczFYjJVYtR8=
+  mailHost: smtp.gmail.com
+  mailPort: 587
+  mailUserName: mayureshratnaparkhi@gmail.com
+  mailPassword: enlw uhwb jgfk wrtz
+  corsAllowUrls: http://localhost:8080,http://localhost:8080/cerebra,http://localhost:5173
+  corsAllowHeaders: x-requested-with,accept,Authorization,authorization,reason,content-type
+  corsAllowMethods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+  logSecureAttribute: email,password
+  corePoolSize: 5
+  maxPoolSize: 10
+  queueCapacity: 500
+  threadNamePrefix: fileProcessor-
+  uploadDirectory: /home/swami/uploads
+  stompAccessUrl: http://localhost:8080,http://localhost:8080/cerebra,http://localhost:5173
+  notificationOn: /cerebra-notification
