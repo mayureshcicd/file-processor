@@ -171,7 +171,7 @@ sudo gedit /etc/systemd/system/wildfly.service
 ```bash
 sudo gedit /etc/systemd/system/wildfly.service
 ```
-#Paste the following configuration:
+# Paste the following configuration:
 
 ```ini
 
@@ -192,7 +192,8 @@ WantedBy=multi-user.target
 
 ```
 
-#Reload Systemd and Start WildFly
+# Reload Systemd and Start WildFly
+
 
 ```bash
 sudo systemctl stop wildfly
@@ -201,17 +202,33 @@ sudo systemctl start wildfly
 sudo systemctl enable wildfly
 ```
 
-#Open Firewall Port (Optional)
+# Open Firewall Port (Optional)
 
 ```bash
 sudo ufw allow 8080/tcp
 ```
 
 
-#Access WildFly on Port 8080
+# Access WildFly on Port 8080
 
 Open a browser and visit: [http://localhost:8080/](http://localhost:8080/)
 
+# login details of wildly Adminstration console 
+
+Open a browser and visit: [http://localhost:9990/console/index.html](http://localhost:9990/console/index.html)
+
+# Run the Add User Script: 
+
+```bash
+cd /opt/wildfly/bin
+sudo ./add-user.sh
+```
 
 
-
+### **Follow the Prompts:**
+-  • Type of user: Choose a for Management User.
+-  • Username: Enter a preferred admin username (e.g., admin).
+-  • Password: Set a secure password (minimum 8 characters).
+-  • Re-type Password: Confirm the password.
+-  • Realm: Just press Enter to accept the default (ManagementRealm).
+-  • Is this correct? Type yes and press Enter.
